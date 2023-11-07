@@ -1,0 +1,19 @@
+class Solution {
+    public int maxProduct(int[] nums) {
+        int ans = nums[0];
+        int leftProduct = 1;
+        int rightProduct = 1;
+
+        for(int num=0; num<nums.length; num++){
+            //if leftProduct or rightProduct is 0 then count it 1
+            leftProduct = leftProduct != 0 ? leftProduct:1;
+            rightProduct = rightProduct != 0 ? rightProduct:1;
+
+            leftProduct *= nums[num];
+            rightProduct *= nums[nums.length - 1 - num];
+
+            ans = Math.max(ans, Math.max(leftProduct,rightProduct));
+        }
+        return ans;
+    }
+}
