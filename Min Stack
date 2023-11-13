@@ -1,0 +1,53 @@
+class MinStack {
+
+    //Using two stacks to store the values.
+    Stack<Integer> pushStack = new Stack<>(); //Stack to store all the values pushed
+    Stack<Integer> minStack = new Stack<>();  //Stack to Store all the minimum values
+    
+    //Leaving constructor empty
+    public MinStack() {}
+    
+
+    public void push(int val) {
+
+        pushStack.push(val);
+        if(minStack.isEmpty() || pushStack.peek() <= minStack.peek())
+            minStack.push(val);
+        
+        //We push all the values to pushStack without any conditions
+        
+        
+    }
+    
+    public void pop() {
+
+        
+        if(pushStack.peek().equals(minStack.peek()))
+        {
+
+            minStack.pop();
+        }
+
+        //Normal pop from the values stack
+        pushStack.pop();
+    }
+    
+    //For top we check in push Stack
+    public int top() {
+        return pushStack.peek();
+    }
+    
+    //For peek we check in min Stack
+    public int getMin() {
+        return minStack.peek();
+    }
+}
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(val);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
+ */
