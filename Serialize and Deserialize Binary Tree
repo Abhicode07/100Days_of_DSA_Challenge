@@ -1,0 +1,61 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Codec {
+
+    private static final String NULL = "#", COMMA = ",";
+
+    class Index {
+        int val;
+        Index() {
+            this.val = 0;
+        }
+    }
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        serialize(root, sb);
+        return sb.toString();
+    }
+
+    private void serialize(TreeNode root, StringBuilder sb) {
+        if(root == null) {
+            sb.append(NULL).append(COMMA);
+            return;
+        }
+        sb.append(root.val).append(COMMA);
+        serialize(root.left, sb);
+        serialize(root.right, sb);
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        if(data == null || data.length() == 0)
+            return null;
+        String[] preOrder = data.split(COMMA);
+        return deserialize(preOrder, new Index());
+    }
+
+    private TreeNode deserialize(String[] preOrder, Index index) {
+        if(index.val >= preOrder.length || preOrder[index.val].equals(NULL)) {
+            index.val++;
+            return null;
+        }
+        TreeNode root = new TreeNode(Integer.valueOf(preOrder[index.val++]));
+        root.left = deserialize(preOrder, index);
+        root.right = deserialize(preOrder, index);
+        return root;
+    }
+}
+
+// Your Codec object will be instantiated and called as such:
+// Codec ser = new Codec();
+// Codec deser = new Codec();
+// TreeNode ans = deser.deserialize(ser.serialize(root));
