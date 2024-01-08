@@ -1,0 +1,43 @@
+class Solution {
+    public int findCircleNum(int[][] isConnected) {
+
+        int n = isConnected.length; 
+        // To create an adjacency list 'l' 
+        List<List<Integer>> l = new ArrayList<>();
+
+        // Creating adjacency list from the adjacency matrix
+        for (int i = 0; i < n; i++) {
+            l.add(new ArrayList<>());
+            for (int j = 0; j < n; j++) {
+                if (i != j && isConnected[i][j] == 1) {
+                    // Adding connected nodes to the adjacency list
+                    l.get(i).add(j);
+                }
+            }
+        }
+
+        Queue<Integer> q = new LinkedList<>();
+        HashSet<Integer> visited = new HashSet<>();
+        int count = 0; // Counter for connected components
+
+        // Checking for each node whether it has any path or is part of a disjoint component
+        for (int i = 0; i < n; i++) {
+            if (!visited.contains(i)) {
+                // Starting BFS from unvisited node
+                q.add(i);
+                visited.add(i);
+                while (!q.isEmpty()) {
+                    int current = q.poll();
+                    for (int j : l.get(current)) {
+                        if (!visited.contains(j)) {
+                            q.add(j);
+                            visited.add(j);
+                        }
+                    }
+                }
+                count++; // Increment count for each connected component found
+            }
+        }
+        return count; // Returning the total count of connected components
+    }
+}
